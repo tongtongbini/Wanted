@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wanted.sell.dao.SellDAOImpl">
+	<select id="list" resultType="wanted.sell.dto.SellDTO">
+		SELECT * FROM sell ORDER BY idx DESC
+	</select>
+	
+	<select id="view" resultType="wanted.sell.dto.SellDTO">
+		SELECT * FROM sell WHERE idx = #{param1}
+	</select>
+	
+	<insert id="write">
+		INSERT INTO sell 
+			(idx, brand, model, grade, year, km, fuel, transmission, title, contents, price, id)
+		VALUES
+			((SELECT max(idx) FROM seq), #{param1},#{param2},#{param3},#{param4},#{param5},#{param6},#{param7},#{param8},#{param9},#{param10},#{param11})
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM sell WHERE idx = #{param1}
+	</delete>
+	
+	<update id="modify">
+		UPDATE sell SET brand = #{param2}, model = #{param3}, grade = #{param4}, 
+		year = #{param5}, km = #{param6}, fuel = #{param7}, transmission = #{param8}, 
+		title = #{param9}, contents = #{param10}, price = #{param11} where idx = #{param1}
+	</update>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="wanted.sell.dao.AttachedFileDAOImpl">
+	<insert id="insert" parameterType="HashMap">
+		INSERT INTO attachedfile 
+			(board_idx, originalfile, serverfile, file_size) 
+		values 
+			((select max(idx) from seq), #{originalfile}, #{serverfile}, #{file_size})
+	</insert>
+	
+	<insert id="insertUpdate" parameterType="HashMap">
+		INSERT INTO attachedfile 
+			(board_idx, originalfile, serverfile, file_size) 
+		values 
+			(#{board_idx}, #{originalfile}, #{serverfile}, #{file_size})
+	</insert>
+	
+	<select id="select" resultType="wanted.sell.dto.AttachedFileDTO">
+		SELECT * FROM attachedfile WHERE board_idx = #{param1}
+	</select>
+	
+	<select id="selectFile" resultType="String">
+		SELECT serverfile FROM attachedfile WHERE board_idx = #{param1} AND originalfile = #{param2}
+	</select>
+	
+	<select id="selectDelete" resultType="String">
+		SELECT serverfile FROM attachedfile WHERE board_idx = #{param1}
+	</select>
+	
+	<delete id="deleteFile">
+		DELETE FROM attachedfile WHERE board_idx = #{param1}
+	</delete>
+	
+	<select id="selectFileDelete" resultType="String">
+		SELECT serverfile from attachedfile where originalfile = #{param1}
+	</select>
+	
+	<delete id="deleteOneFile">
+		DELETE FROM attachedfile WHERE originalfile = #{param1}
+	</delete>
+	
+</mapper>
